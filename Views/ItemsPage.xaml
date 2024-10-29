@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Views.ItemsPage"
+             xmlns:local="clr-namespace:MauiApp1.ViewModels"  
+             xmlns:model="clr-namespace:MauiApp1.Models"  
+             Title="{Binding Title}"
+             x:Name="BrowseItemsPage">
+             
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
+    </ContentPage.ToolbarItems>
+    <!--
+   x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+   https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+ -->
+    <Grid x:Name="GridPage">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Frame x:Name="backGradient" Background="{StaticResource BackgroundGradient}"
+               Scale="1.2" AnchorX="1" AnchorY="0"/>
+
+
+        <RefreshView Grid.Row="0" x:DataType="local:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="ItemsListView"
+         ItemsSource="{Binding Items}"
+         SelectionMode="None" >
+                    <!--Background="{StaticResource BackgroundGradient}">-->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems x:DataType="model:Item">
+                                    <SwipeItem Text="Move Up"
+                    BackgroundColor="Green"
+                    Command="{Binding Source={x:Reference BrowseItemsPage}, Path=BindingContext.MoveToTopCommand}"
+                    CommandParameter="{Binding}"/>
+                                    <SwipeItem Text="Move Down"
+                    BackgroundColor="Yellow"
+                    Command="{Binding Source={x:Reference BrowseItemsPage}, Path=BindingContext.MoveToBottomCommand}"
+                    CommandParameter="{Binding}" />
+                                    <SwipeItem Text="Delete"
+                    BackgroundColor="Red"
+                    Command="{Binding Source={x:Reference BrowseItemsPage}, Path=BindingContext.RemoveCommand}"
+                    CommandParameter="{Binding}" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            
+                            <StackLayout Padding="10" x:DataType="model:Item" Spacing="18">
+                                <StackLayout Background="{StaticResource ButtonGradient}">
+                                <StackLayout Orientation="Horizontal" Spacing="12">
+                                        <Label Text="{Binding Text}" 
+LineBreakMode="NoWrap" 
+Style="{DynamicResource ListItemTextStyle}" 
+FontSize="16" />
+                                        
+                                        <Label Text="{Binding Importance}"
+                                 LineBreakMode="NoWrap"
+                                 Style="{DynamicResource ListItemDetailTextStyle}"
+                                 FontSize="16" 
+                                FontAttributes="Italic"/>
+                                        <Label Text="{Binding Date}"
+                                 LineBreakMode="NoWrap"
+                                 Style="{DynamicResource ListItemDetailTextStyle}"
+                                 FontSize="13" 
+                                 HorizontalOptions="EndAndExpand"/>
+                                </StackLayout>
+                                    <Label Text="{Binding Category}"
+LineBreakMode="NoWrap"
+Style="{DynamicResource ListItemTextStyle}"
+FontAttributes="Bold"
+FontSize="16"/>
+
+                                    <Label Text="{Binding Description}" 
+                             LineBreakMode="NoWrap"
+                             Style="{DynamicResource ListItemDetailTextStyle}"
+                             FontSize="13" />
+                            </StackLayout>
+
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                         NumberOfTapsRequired="1"
+                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
+                         CommandParameter="{Binding .}">
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <StackLayout x:Name="SlidingPanelBackground" BackgroundColor="Transparent" InputTransparent="True" IsVisible="False" >
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Tapped="SlidingPanelBackground_OnTapped"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+        <StackLayout x:Name="SlidingPanel" BackgroundColor="GreenYellow" Padding="15">
+            <StackLayout x:Name="QuickMenu" BackgroundColor="Transparent" Orientation="Horizontal" HorizontalOptions="Center">
+                <Button Text="1" FontAttributes="Bold" Clicked="QuickMenuButton_OnClicked"/>
+                <Button Text="2" FontAttributes="Bold" Clicked="QuickMenuButton_OnClicked"/>
+                <Button Text="3" FontAttributes="Bold" Clicked="QuickMenuButton_OnClicked"/>
+            </StackLayout>
+            <StackLayout.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Up" Swiped="SlidingPanel_OnSwiped" />
+                <SwipeGestureRecognizer Direction="Down" Swiped="SlidingPanel_OnSwiped" />
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+        <Button x:Name="FloatingButton" Grid.Row="0" Text="Button" Clicked="FloatingButton_Clicked"
+                HorizontalOptions="End" VerticalOptions="End" 
+                BorderColor="DarkBlue"
+                BorderWidth="3"
+                BackgroundColor="BlueViolet"
+                WidthRequest="100" HeightRequest="50" CornerRadius="30"
+                Margin="0,0,10,75"
+                
+                />
+
+    </Grid>
+    
+    
+    
+</ContentPage>

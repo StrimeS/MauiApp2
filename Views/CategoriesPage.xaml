@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Views.CategoriesPage"
+             Title="Category"
+             xmlns:local="clr-namespace:MauiApp1.ViewModels"  
+             xmlns:model="clr-namespace:MauiApp1.Models"
+             x:Name="categoriesPage"
+             BackgroundColor="DarkSlateGray">
+
+    <ContentPage.ToolbarItems>
+        
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
+        
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        
+        <RefreshView x:DataType="local:CategoriesViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            
+            <CollectionView x:Name="ItemsListView"
+                            
+            ItemsSource="{Binding Items}"
+            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems x:DataType="model:Category"> 
+                                <SwipeItem Text="Move Up"
+                                           BackgroundColor="Green"
+                                           Command="{Binding Source={x:Reference categoriesPage}, Path=BindingContext.MoveToTopCommand}"
+                                           CommandParameter="{Binding}"/>
+                                <SwipeItem Text="Move Down"
+                                           BackgroundColor="Yellow"
+                                           Command="{Binding Source={x:Reference categoriesPage}, Path=BindingContext.MoveToBottomCommand}"
+                                           CommandParameter="{Binding}" />
+                                <SwipeItem Text="Delete"
+                                           BackgroundColor="Red"
+                                           Command="{Binding Source={x:Reference categoriesPage}, Path=BindingContext.RemoveCommand}"
+                                           CommandParameter="{Binding}" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                        
+                        
+                        <StackLayout Padding="10" x:DataType="model:Category">
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Title}" 
+                                        LineBreakMode="NoWrap" 
+                                        Style="{DynamicResource ListItemTextStyle}" 
+                                        FontSize="16" />
+                                <Label Text="{Binding SuccessRate}" 
+                                        LineBreakMode="NoWrap" 
+                                        Style="{DynamicResource ListItemTextStyle}" 
+                                        FontSize="16" />
+                            </StackLayout>
+                            <Label Text="{Binding Description}" 
+                        LineBreakMode="NoWrap"
+                        Style="{DynamicResource ListItemDetailTextStyle}"
+                        FontSize="13" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer 
+                            NumberOfTapsRequired="1"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CategoriesViewModel}}, Path=ItemTapped}"		
+                            CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        
+    </ContentPage.Content>
+    
+</ContentPage>

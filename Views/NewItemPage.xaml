@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Views.NewItemPage"
+             Shell.PresentationMode="ModalAnimated"
+             Title="New Item">
+    
+    <ContentPage.Content>
+        <StackLayout Spacing="3" Padding="15">
+            
+            <Label Text="Text" FontSize="Medium" />
+            <Border WidthRequest="400" BackgroundColor="Transparent"
+                   Stroke="Blue"
+                   StrokeThickness="1"
+                   Padding="1"
+                   HorizontalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5,5,5,5" />
+                </Border.StrokeShape>
+                <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium"/>
+            </Border>
+            
+
+            <Label Text="Description" FontSize="Medium" />
+            <Border WidthRequest="400" BackgroundColor="Transparent"
+                   Stroke="Blue"
+                   StrokeThickness="1"
+                   Padding="1"
+                   HorizontalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5,5,5,5" />
+                </Border.StrokeShape>
+                <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
+            </Border>
+
+
+            <Label Text="Data" FontSize="Medium" />
+            <DatePicker x:Name="DatePickerDate" DateSelected="DatePickerDate_OnDateSelected">
+                
+            </DatePicker>
+            
+            <Label Text="Importance" FontSize="Medium" />
+            <Border WidthRequest="400" BackgroundColor="Transparent"
+                   Stroke="Blue"
+                   StrokeThickness="1"
+                   Padding="1"
+                   HorizontalOptions="Center">          
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5,5,5,5" />
+                </Border.StrokeShape>
+                <Editor Text="{Binding Importance, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
+            </Border>
+
+            <Label Text="Category" FontSize="Medium"/>
+            <Picker x:Name="PickerCategory" SelectedIndexChanged="Picker_SelectedIndexChanged" 
+                    SelectedItem="{Binding Category, Mode=TwoWay}"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Button x:Name ="buttonRecord" Text="Record" Command="{Binding SwitchRecordingCommand}" Clicked="SwitchRecording" HorizontalOptions="FillAndExpand"
+                        BackgroundColor="RED"></Button>
+                <Button x:Name ="buttonPlay" Text="Play" Command="{Binding SwitchPlayingCommand}" Clicked="SwitchPlaying" HorizontalOptions="FillAndExpand" BackgroundColor="Silver"></Button>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand" Background="{StaticResource ButtonGradient}"></Button>
+                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" Background="{StaticResource ButtonGradient}"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+    
+</ContentPage>

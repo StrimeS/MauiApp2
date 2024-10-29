@@ -1,0 +1,49 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MauiApp1"
+             x:Class="MauiApp1.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Color x:Key="Primary">#2156F3</Color>
+            <Style TargetType="Button">
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="Silver" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
+            <LinearGradientBrush x:Key="ButtonGradient" StartPoint ="0,0" EndPoint="1, 0">
+                <GradientStop Color="RosyBrown" Offset="0.1" />
+                <GradientStop Color="Purple" Offset="1.0" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="BackgroundGradient"
+                                 StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Red" Offset="0.1"/>
+                <GradientStop Color="Black" Offset="0.2"/>
+                <GradientStop Color="Green" Offset="0.6"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
